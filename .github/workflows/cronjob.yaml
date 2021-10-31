@@ -1,7 +1,7 @@
 name: Cron
 on:
   schedule:
-    - cron: "0 * * * *"
+    - cron: "0/30 * * * *"
   push:
     branches:
       - main
@@ -28,8 +28,6 @@ jobs:
             TITLE="Found an iPhone"
             MESSAGE="$(cat /tmp/tmp.txt)"
             curl 'https://api.pushover.net/1/messages.json' -X POST -d "token=$APP_TOKEN&user=$USER_TOKEN&message=\"$MESSAGE\"&title=\"$TITLE\""
-
-            exit 1
           fi
         env:
           PUSHOVER_APP_TOKEN: ${{ secrets.PUSHOVER_APP_TOKEN }}
