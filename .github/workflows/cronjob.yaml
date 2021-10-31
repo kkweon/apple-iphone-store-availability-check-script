@@ -22,5 +22,15 @@ jobs:
           if grep GB /tmp/tmp.txt; then
             echo "Found an iPhone"
             cat /tmp/tmp.txt
+
+            APP_TOKEN="$PUSHOVER_APP_TOKEN"
+            USER_TOKEN="$PUSHOVER_USER_TOKEN"
+            TITLE="Found an iPhone"
+            MESSAGE="$(cat /tmp/tmp.txt)"
+            curl 'https://api.pushover.net/1/messages.json' -X POST -d "token=$APP_TOKEN&user=$USER_TOKEN&message=\"$MESSAGE\"&title=\"$TITLE\""
+
             exit 1
           fi
+        env:
+          PUSHOVER_APP_TOKEN: ${{ secrets.PUSHOVER_APP_TOKEN }}
+          PUSHOVER_USER_TOKEN: ${{ secrets.PUSHOVER_USER_TOKEN }}
