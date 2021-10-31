@@ -1,3 +1,6 @@
-fn main() {
-    println!("Hello, world!");
+use apple_checker::run;
+
+#[tokio::main]
+async fn main() {
+    let _ = run().await;
 }
