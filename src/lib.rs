@@ -12,11 +12,11 @@ pub async fn run() -> Result<(), Box<dyn std::error::Error>> {
         .json::<Root>()
         .await?;
 
-
-    let mut found = false;
-
     for store in resp.body.pickup_message.stores {
-        println!("Checking {} (distance: {})", store.store_name, store.store_distance_with_unit);
+        println!(
+            "Checking {} (distance: {})",
+            store.store_name, store.store_distance_with_unit
+        );
         if store.parts_availability.is_empty().not() {
             for (_, value) in store.parts_availability {
                 if let Some(product_title) = value
@@ -24,14 +24,9 @@ pub async fn run() -> Result<(), Box<dyn std::error::Error>> {
                     .and_then(|x| x.as_str())
                 {
                     println!("{} has {}", store.store_name, product_title);
-                    found = true;
                 }
             }
         }
-    }
-
-    if !found {
-        panic!("no store has the iPhone available.");
     }
 
     Ok(())

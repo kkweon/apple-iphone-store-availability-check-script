@@ -1,0 +1,26 @@
+name: Cron
+on:
+  schedule:
+    - cron: "0 * * * *"
+  push:
+    branches:
+      - main
+  workflow_dispatch: { }
+
+jobs:
+  cron:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+      - run: cargo build --release --all-features
+      - run: |
+          ./target/release/apple-checker > /tmp/tmp.txt
+
+          if grep GB /tmp/tmp.txt; then
+            echo "Found an iPhone"
+            cat /tmp/tmp.txt
+            exit 1
+          fi
