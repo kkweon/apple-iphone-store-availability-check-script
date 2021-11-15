@@ -19,7 +19,7 @@ jobs:
       - run: |
           ./target/release/apple-checker > /tmp/tmp.txt
 
-          if grep 128GB /tmp/tmp.txt; then
+          if grep '128GB Sierra Blue' /tmp/tmp.txt; then
             echo "Found an iPhone"
             cat /tmp/tmp.txt
 
